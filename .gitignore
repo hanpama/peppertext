@@ -1,0 +1,10 @@
+.*/
+__pycache__
+db.sqlite3
+.sampler_dumpfile
+build/
+_build/
+/peppertext.egg-info/
+.DS_Store
+*.swp
+/venv/
