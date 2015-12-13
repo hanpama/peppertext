@@ -160,11 +160,11 @@ class RegexSubSelector(Selector):
 @register_selector
 class CastSelector(Selector):
     name = "cast"
-    def set_args(self, type_to):
-        self.type_to = type_to
+    def set_args(self, function):
+        self.function = function
 
     def filter(self, document):
-        return self.type_to(document)
+        return self.function(document)
 
 class Field(object):
     pass
