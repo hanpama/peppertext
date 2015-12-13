@@ -12,7 +12,7 @@ setup(
     url='http://curlybrace.kr/',
     packages=find_packages(),
     include_package_data=True,
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
     classifiers=[
         'Programming Language :: Python :: 3.4',
     ],
