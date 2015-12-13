@@ -19,7 +19,7 @@ Overview
 
 .. code-block:: python
 
-   from peppertext import Hypertext, resolve, register, selector
+   from peppertext import Hypertext, SimpleURLField, resolve, register, selector
 
    @register
    class GoogleBlogPage(Hypertext):
