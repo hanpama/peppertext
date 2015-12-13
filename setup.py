@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='peppertext',
-    version="0.1.1",
+    version="0.1.2",
     description='Declarative hypertext client',
     author='Kyungil Choi',
     author_email='hanpama@gmail.com',
