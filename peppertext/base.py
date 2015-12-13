@@ -343,7 +343,7 @@ class Hypertext(object):
         It raises `NotFetchedYetError` if the properties is not fetched.
         """
         try:
-            super().__getitem__(key)
+            super(Hypertext, self).__getitem__(key)
         except AttributeError:
             return self.get_properties()[key]
 
