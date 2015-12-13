@@ -3,7 +3,8 @@ Peppertext
 
 Declarative hypertext client
 
-   .. code-block:: python
+.. code-block:: python
+
    from peppertext import Hypertext, resolve, register, selector
 
    @register
@@ -18,7 +19,8 @@ Declarative hypertext client
 
 It resolves given headers, url and query string to hypertext object.
 
-   .. code-block:: python
+.. code-block:: python
+
    >>> p = resolve("https://googleblog.blogspot.kr/2015/11/google-gobble-thanksgiving-trends-on.html")
    >>> p
    <GoogleBlogPage at 0x108a4d1f0 >
@@ -33,7 +35,8 @@ You can create GoogleBlogPage object with profile variables which are declared a
 fields in `GoogleBlogPage` class.
 
 
-   .. code-block:: python
+.. code-block:: python
+
    >>> p = GoogleBlogPage(
    ...     year="2015",
    ...     month="11",
@@ -49,6 +52,7 @@ Selectors
 ---------
 
 .. code-block:: python
+
    class GoogleBlogPage(Hypertext):
        # ...
        title = selector.find(".title[itemprop=name]").text()
@@ -61,6 +65,7 @@ You can access the value title with subscribing the `GoogleBlogPage` object
 with selector name.
 
 .. code-block:: python
+
    document = pq("""<div>
        <a href="http://example.com">Link1</a>
        <a href="http://example.com/dahokan">Link2</a>
@@ -101,7 +106,8 @@ Get an item on index
 `sub`
 """""
 
-   .. code-block:: python
+.. code-block:: python
+
    sub_selector = selector.sub(pattern="\d+", repl="")
 
 Do regex substitution.
@@ -109,7 +115,8 @@ Do regex substitution.
 `cast`
 """"""
 
-   .. code-block:: python
+.. code-block:: python
+
    int_cast_selector = selector.cast(int)
 
 Pass the data to the function given as a parameter.
