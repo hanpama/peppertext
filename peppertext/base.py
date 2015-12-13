@@ -28,6 +28,7 @@ import re
 
 import requests
 from pyquery import PyQuery as pq
+from six import add_metaclass
 
 class NotFetchedYetError(Exception): pass
 class InvalidProfilePassedError(TypeError): pass
@@ -44,9 +45,10 @@ class SelectorBase(type):
         if not cls.name:
             cls.name = name.lower()
 
-class Selector(object, metaclass=SelectorBase):
+@add_metaclass(SelectorBase)
+class Selector(object):
     """
-    연쇄적으로 선언할 수 있는 도큐먼트 처리 파이프라인입니다.
+    Document processing pipeline which can be chained.
     """
     name = "selector"
 
@@ -94,16 +96,17 @@ def register_selector(cls):
 class FindSelector(Selector):
     """
     Basic selector which initialized with css selector
-
-    css_selector:
-       css selector string
-
-    each:
-       apply filter iterating document's elements.
-       If this value is `False`, filter is applied to the first elements.
     """
     name = "find"
     def set_args(self, css_selector, each=False):
+        """
+        css_selector:
+           css selector string
+
+        each:
+           apply filter iterating document's elements.
+           If this value is `False`, filter is applied to the first elements.
+        """
         self.css_selector = css_selector
         self.each = each
 
@@ -181,10 +184,6 @@ class EntityField(Field):
         return [self.name]
 
     def expand(self, **kwargs):
-        """
-        해당 파서에 정의된 변수들이 아닌 다른 변수들도 파라미터로 넣을 수 있습니다.
-        물론 expand 과정에서 무시됩니다.
-        """
         return kwargs[self.name]
 
     def parse(self, string):
@@ -238,10 +237,6 @@ class SimpleURLField(Field):
         return re.findall("{(\w+)}", self.pattern)
 
     def expand(self, **kwargs):
-        """
-        해당 파서에 정의된 변수들이 아닌 다른 변수들도 파라미터로 넣을 수 있습니다.
-        물론 expand 과정에서 무시됩니다.
-        """
         return self.pattern.format(**kwargs)
 
     def parse(self, string):
@@ -278,8 +273,8 @@ class HypertextBase(type):
             cls.profile.extend(param.variables)
 
 
-
-class Hypertext(metaclass=HypertextBase):
+@add_metaclass(HypertextBase)
+class Hypertext(object):
     """
     Basic web page parser which catches any url with GET method.
     """
@@ -344,7 +339,7 @@ class Hypertext(metaclass=HypertextBase):
 
     def __getitem__(self, key):
         """
-        Get a property in dictionary-like way.
+        Get a property in a dictionary-like way.
         It raises `NotFetchedYetError` if the properties is not fetched.
         """
         try:
@@ -394,6 +389,6 @@ def resolve(url, method="GET", params={}, headers={}, data=None):
             continue
         # find all regex patterns and their values and pass them to constructor
         profile_vars = hypertext.parse_profile(url, method, params, headers)
-        return hypertext(**profile_vars, data=data)
+        return hypertext(data=data, **profile_vars)
 
     raise NotResolvedError("Failed to resolve given link with url({})".format(url))

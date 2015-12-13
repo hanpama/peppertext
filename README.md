@@ -3,16 +3,16 @@
 Declarative hypertext client
 
 ```python
-from peppertext import Hypertext, resolve, register
+from peppertext import Hypertext, resolve, register, selector
 
 @register
 class GoogleBlogPage(Hypertext):
-    url = base.SimpleURLField(
+    url = SimpleURLField(
         "https://googleblog.blogspot.kr/{year}/{month}/{title}.html"
     )
 
-    title = base.selector.find(".title[itemprop=name]").text()
-    body = base.selector.find(".post-body").text()
+    title = selector.find(".title[itemprop=name]").text()
+    body = selector.find(".post-body").text()
 
 ```
 
@@ -30,8 +30,9 @@ It resolves given headers, url and query string to hypertext object.
 'In just a few hours, people across the U.S. will be settling...'
 ```
 
-You can create GoogleBlogPage with profile variables which are declared as
+You can create GoogleBlogPage object with profile variables which are declared as
 fields in `GoogleBlogPage` class.
+
 
 ```
 >>> p = GoogleBlogPage(
