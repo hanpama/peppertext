@@ -9,3 +9,4 @@ _build/
 *.swp
 /venv/
 *.pyc
+/dist/

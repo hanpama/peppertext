@@ -3,6 +3,20 @@ Peppertext
 
 Declarative hypertext client
 
+
+Installation
+------------
+
+.. code-block:: bash
+
+   pip install peppertext
+
+
+
+Overview
+--------
+
+
 .. code-block:: python
 
    from peppertext import Hypertext, resolve, register, selector

@@ -1,21 +1,33 @@
 from setuptools import setup, find_packages
 
-with open('requirements.txt') as req:
-    install_requires = [ line for line in req if line ]
 
 setup(
     name='peppertext',
-    version="0.1.0",
+    version="0.1.1",
     description='Declarative hypertext client',
     author='Kyungil Choi',
     author_email='hanpama@gmail.com',
-    url='http://curlybrace.kr/',
+    url='https://github.com/hanpama/peppertext',
     packages=find_packages(),
     include_package_data=True,
     long_description=open('README.rst').read(),
     classifiers=[
-        'Programming Language :: Python :: 3.4',
+        "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.0",
+        "Programming Language :: Python :: 3.1",
+        "Programming Language :: Python :: 3.2",
+        "Programming Language :: Python :: 3.3",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
+        "Topic :: Internet :: WWW/HTTP",
     ],
-    install_requires=install_requires,
+    install_requires=[
+        "pyquery>=1.2.9",
+        "requests>=2.8.1",
+        "six",
+    ],
     zip_safe=False,
 )
