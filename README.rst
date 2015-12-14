@@ -134,3 +134,13 @@ Do regex substitution.
    int_cast_selector = selector.cast(int)
 
 Pass the data to the function given as a parameter.
+
+
+
+Features in developing
+----------------------
+
+* Interface for parse error handling
+* Python 2 Support
+* Polymorphic access to page selectors
+* Interface to resolve and traverse links in a page
