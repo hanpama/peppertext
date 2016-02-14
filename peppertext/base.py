@@ -30,13 +30,25 @@ import requests
 from pyquery import PyQuery as pq
 from six import add_metaclass
 
-class NotFetchedYetError(Exception): pass
-class InvalidProfilePassedError(TypeError): pass
-class FieldError(Exception): pass
-class NotResolvedError(Exception): pass
+
+class NotFetchedYetError(Exception):
+    pass
+
+
+class InvalidProfilePassedError(TypeError):
+    pass
+
+
+class FieldError(Exception):
+    pass
+
+
+class NotResolvedError(Exception):
+    pass
 
 
 selector_registry = dict()
+
 
 class SelectorBase(type):
     def __init__(cls, name, bases, nmspc):
@@ -44,6 +56,7 @@ class SelectorBase(type):
 
         if not cls.name:
             cls.name = name.lower()
+
 
 @add_metaclass(SelectorBase)
 class Selector(object):
@@ -61,7 +74,7 @@ class Selector(object):
                 selector = selector_registry[key](self)
                 return selector
             else:
-                raise AttributeError("%s object has no attribute %s"%(self, key))
+                raise AttributeError("%s object has no attribute %s" % (self, key))
 
     def __init__(self, previous_selector=None):
         """
@@ -88,9 +101,11 @@ class Selector(object):
 
 selector = Selector()
 
+
 def register_selector(cls):
     selector_registry[cls.name] = cls
     return cls
+
 
 @register_selector
 class FindSelector(Selector):
@@ -98,6 +113,7 @@ class FindSelector(Selector):
     Basic selector which initialized with css selector
     """
     name = "find"
+
     def set_args(self, css_selector, each=False):
         """
         css_selector:
@@ -113,6 +129,7 @@ class FindSelector(Selector):
     def filter(self, document):
         return pq(document)(self.css_selector)
 
+
 @register_selector
 class AttributeSelector(Selector):
     name = "attribute"
@@ -126,6 +143,7 @@ class AttributeSelector(Selector):
             return ([pq(el).attr[self.attribute_name] for el in document])
         return pq(document).attr[self.attribute_name]
 
+
 @register_selector
 class TextSelector(Selector):
     name = "text"
@@ -138,18 +156,22 @@ class TextSelector(Selector):
             return ([pq(el).text() for el in document])
         return pq(document).text()
 
+
 @register_selector
 class AtSelector(Selector):
     name = "at"
+
     def set_args(self, index):
         self.index = index
 
     def filter(self, document):
         return pq(document).eq(self.index)
 
+
 @register_selector
 class RegexSubSelector(Selector):
     name = "sub"
+
     def set_args(self, pattern, repl=''):
         self.pattern = pattern
         self.repl = repl
@@ -157,17 +179,21 @@ class RegexSubSelector(Selector):
     def filter(self, document):
         return re.sub(self.pattern, self.repl, document)
 
+
 @register_selector
 class CastSelector(Selector):
     name = "cast"
+
     def set_args(self, function):
         self.function = function
 
     def filter(self, document):
         return self.function(document)
 
+
 class Field(object):
     pass
+
 
 class EntityField(Field):
     """
@@ -188,6 +214,7 @@ class EntityField(Field):
 
     def parse(self, string):
         return {self.name: string}
+
 
 class DateFormatField(Field):
     def __init__(self, name, pattern):
@@ -251,6 +278,7 @@ class SimpleURLField(Field):
             )
 
         return re.fullmatch(regex_pattern, string).groupdict()
+
 
 class HypertextBase(type):
     def __init__(cls, name, bases, nmspc):
@@ -375,9 +403,11 @@ class Hypertext(object):
 
 registry = []
 
+
 def register(cls):
     registry.insert(0, cls)
     return cls
+
 
 def resolve(url, method="GET", params={}, headers={}, data=None):
     """

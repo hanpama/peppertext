@@ -1,4 +1,4 @@
-#-*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 
 from datetime import datetime
 from unittest import TestCase
@@ -48,13 +48,11 @@ class SelectorTestCase(TestCase):
 
         find_selector = base.selector.find('a')
         selected_els = find_selector.select(document)
-        self.assertEqual( [pq(el).attr["href"] for el in selected_els],
-            [
-                "http://example.com",
-                "http://example.com/dahokan",
-                "http://example.com/manoha"
-            ]
-        )
+        self.assertEqual([pq(el).attr["href"] for el in selected_els], [
+            "http://example.com",
+            "http://example.com/dahokan",
+            "http://example.com/manoha"
+        ])
 
         attr_selector = find_selector.attribute('href', each=True)
         self.assertIsInstance(attr_selector, base.AttributeSelector)
@@ -62,13 +60,12 @@ class SelectorTestCase(TestCase):
         self.assertTrue(attr_selector.each)
 
         link_hrefs = attr_selector.select(document)
-        self.assertEqual(link_hrefs,
-            [
-                "http://example.com",
-                "http://example.com/dahokan",
-                "http://example.com/manoha"
-            ]
-        )
+        self.assertEqual(link_hrefs, [
+            "http://example.com",
+            "http://example.com/dahokan",
+            "http://example.com/manoha"
+        ])
+
 
 class DateFormatFieldTestCase(TestCase):
 
@@ -90,10 +87,11 @@ class DateFormatFieldTestCase(TestCase):
         })
 
         with self.assertRaises(base.FieldError):
-            field.parse("19521301") # Invalid date
+            field.parse("19521301")  # Invalid date
 
         with self.assertRaises(base.FieldError):
-            field.parse("1954-13-01") # Invalid format
+            field.parse("1954-13-01")  # Invalid format
+
 
 class SimpleURLFieldTestCase(TestCase):
 
@@ -156,11 +154,13 @@ class SimpleURLFieldTestCase(TestCase):
 
 base.register(base.Hypertext)
 
+
 @base.register
 class W3Page(base.Hypertext):
     url = base.SimpleURLField(
         "http://info.cern.ch/hypertext/WWW/TheProject.html"
     )
+
 
 @base.register
 class GoogleBlogPage(base.Hypertext):
@@ -170,6 +170,7 @@ class GoogleBlogPage(base.Hypertext):
 
     title = base.selector.find(".title[itemprop=name]").text()
     body = base.selector.find(".post-body").text()
+
 
 @base.register
 class KindsArticlePage(base.Hypertext):
@@ -181,6 +182,7 @@ class KindsArticlePage(base.Hypertext):
     }
 
     title = base.selector.find('.title').text()
+
 
 @base.register
 class KindsSearchPage(base.Hypertext):
@@ -198,7 +200,6 @@ class KindsSearchPage(base.Hypertext):
     }
 
     links = base.selector.find('a').attribute("href", each=True)
-
 
 
 class BasicHypertextTestCase(TestCase):
@@ -221,15 +222,12 @@ class BasicHypertextTestCase(TestCase):
         page.fetch()
         links = page["links"]
         self.assertEqual(len(links), 4)
-        self.assertEqual(
-            [ item for item in links ],
-            [
-                "http://info.cern.ch/hypertext/WWW/TheProject.html",
-                "http://line-mode.cern.ch/www/hypertext/WWW/TheProject.html",
-                "http://home.web.cern.ch/topics/birth-web",
-                "http://home.web.cern.ch/about"
-            ]
-        )
+        self.assertEqual([item for item in links], [
+            "http://info.cern.ch/hypertext/WWW/TheProject.html",
+            "http://line-mode.cern.ch/www/hypertext/WWW/TheProject.html",
+            "http://home.web.cern.ch/topics/birth-web",
+            "http://home.web.cern.ch/about"
+        ])
 
     def test_raise_exception_on_implicit_fetching(self):
         page = base.resolve("http://example.com")
@@ -242,7 +240,7 @@ class BasicHypertextTestCase(TestCase):
 
     def test_cannot_parse_example_dot_com_with_post_method(self):
         with self.assertRaises(base.NotResolvedError):
-            page = base.resolve("http://example.com", method="POST")
+            base.resolve("http://example.com", method="POST")
 
     def test_base_hypertext_does_not_parse_any_content(self):
         page = base.resolve("http://info.cern.ch")
@@ -267,7 +265,7 @@ class GoogleBlogPageTestCase(TestCase):
         p = base.resolve("https://googleblog.blogspot.kr/2015/11/google-gobble-thanksgiving-trends-on.html")
         self.assertIsInstance(p, GoogleBlogPage)
 
-        #TODO: 나는 저거 url 패턴의 파라미터들을 어떻게 넘기려고 하는거지?
+        # TODO: 나는 저거 url 패턴의 파라미터들을 어떻게 넘기려고 하는거지?
 
     def test_select_and_parse_properties(self):
         p = base.resolve("https://googleblog.blogspot.kr/2015/11/google-gobble-thanksgiving-trends-on.html")
@@ -294,6 +292,7 @@ class GoogleBlogPageTestCase(TestCase):
             title, "Google gobble: Thanksgiving trends on Search"
         )
         self.assertTrue(body.startswith("In just a few hours"))
+
 
 class KindsArticlePageTestCase(TestCase):
     def test_resolve_with_params_and_parse_properties(self):
@@ -336,12 +335,13 @@ class KindsArticlePageTestCase(TestCase):
             title, "[한·중·일 정상회의] 3국 정상, 회의 전엔 ‘미소 촬영’ 회견 땐 웃음기 ‘싹’…비빔밥으로 만찬"
         )
 
+
 class KindsSearchPageTestCase(TestCase):
 
     def test_resolve_with_multiple_params(self):
         p = base.resolve(
             url="http://www.mediagaon.or.kr/jsp/sch/mnews/search.jsp",
-            params = {
+            params={
                 "startDate": "2015.01.01",
                 "endDate": "2015.10.05",
             }
