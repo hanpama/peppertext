@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='peppertext',
-    version="0.1.2",
+    version="0.1.3",
     description='Declarative hypertext client',
     author='Kyungil Choi',
     author_email='hanpama@gmail.com',
@@ -14,6 +14,7 @@ setup(
     classifiers=[
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.0",
         "Programming Language :: Python :: 3.1",
