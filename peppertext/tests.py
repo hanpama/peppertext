@@ -247,7 +247,7 @@ class BasicHypertextTestCase(TestCase):
         page = base.resolve("http://info.cern.ch")
 
         properties = page.get_properties(fetch=True)
-        self.assertEqual(properties.keys(), {"links"})
+        self.assertEqual(set(properties.keys()), {"links"})
 
 
 class W3PageTestCase(TestCase):
