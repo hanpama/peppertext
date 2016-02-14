@@ -12,7 +12,6 @@ Installation
    pip install peppertext
 
 
-
 Overview
 --------
 
@@ -136,11 +135,15 @@ Do regex substitution.
 Pass the data to the function given as a parameter.
 
 
+Compatibility
+-------------
+
+Peppertext supports Python 2.7 and 3.
+
 
 Features in developing
 ----------------------
 
 * Interface for parse error handling
-* Python 2 Support
 * Polymorphic access to page selectors
 * Interface to resolve and traverse links in a page
