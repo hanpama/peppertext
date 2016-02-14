@@ -272,12 +272,13 @@ class SimpleURLField(Field):
 
         valid_template = "(?P<{var}>[^\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+)/?"
         regex_pattern = self.pattern
+
         for item in self.variables:
             regex_pattern = re.sub(
                 "{\w+}", valid_template.format(var=item), regex_pattern, 1
             )
 
-        return re.fullmatch(regex_pattern, string).groupdict()
+        return re.match(regex_pattern, string).groupdict()
 
 
 class HypertextBase(type):
